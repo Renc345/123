@@ -1,0 +1,26 @@
+import csv
+import sys
+
+from PyQt5 import uic
+from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, QHeaderView, QWidget
+
+class MyWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('untitled1.ui', self)
+        self.school =['Все']
+        self.classe = {}
+        self.data_name = 'rez.csv'
+        self.loadSchoolsClasses(self.data_name)
+        self.schools.addItems(self.school)
+        self.classes.addItems(['Все'])
+        self.schools.currentIndexChanged.connect(self.filter)
+        self.pushButton.clicked.connect(self.results)
+        
+    def filter(self):
+        self.classes.addItems(sorted(list(set(self.classe.get(self.schools.currentText(), [])))))
+        
+    def results(self):
+        sh, k =[self.schools.currentText(), self.classes.currentText()]
+        new_data = self.table_filter(sh, k)
+        self.tableWidget.
